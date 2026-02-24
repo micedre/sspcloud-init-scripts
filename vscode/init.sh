@@ -81,7 +81,6 @@ cat > "$SETTINGS_FILE" << EOF
 {
   "editor.formatOnSave": true,
   "editor.tabSize": 4,
-  "editor.rulers": [88],
   "editor.wordWrap": "on",
   "editor.fontSize": 14,
   "editor.minimap.enabled": false,
@@ -93,6 +92,9 @@ cat > "$SETTINGS_FILE" << EOF
     "editor.defaultFormatter": "charliermarsh.ruff"
   },
   "notebook.output.textLineLimit": 100,
-  "workbench.colorTheme": "Default Dark+"
+  "workbench.colorTheme": "Default Dark Modern",  # Set the theme
+  "editor.rulers": [80, 100, 120],  # Add specific vertical rulers
+  "files.trimTrailingWhitespace": true,  # Automatically trim trailing whitespace
+  "files.insertFinalNewline": true,  # Ensure files end with a newline
 }
 EOF
