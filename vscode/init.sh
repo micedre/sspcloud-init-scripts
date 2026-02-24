@@ -1,0 +1,98 @@
+#!/bin/bash
+
+set -e
+set -o pipefail
+
+## Install Claude Code
+
+echo "Installing Node.js via n-install..."
+curl -fsSL https://raw.githubusercontent.com/mklement0/n-install/stable/bin/n-install | bash -s -- -q 22
+
+export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
+
+echo "Installing Claude CLI..."
+npm install -g @anthropic-ai/claude-code
+
+claude mcp add-json kubernetes '{"name":"kubernetes","command":"npx","args":["kubernetes-mcp-server@latest"]}'
+claude mcp add-json fetch '{"command":"npx","args":["-y","@modelcontextprotocol/server-fetch@latest"]}'
+claude mcp add-json sequential-thinking '{"command":"npx","args":["-y","@modelcontextprotocol/server-sequential-thinking@latest"]}'
+
+git clone https://github.com/wshobson/agents.git "$HOME/.claude/agents"
+
+### Install OpenCode
+echo "Installing Opencode..."
+curl -fsSL https://opencode.ai/install | bash
+
+mkdir -p "$HOME/.config/opencode/"
+cat > "$HOME/.config/opencode/opencode.json" << EOF
+{
+  "\$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "llmlab": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "LLM Lab SSPCloud",
+      "options": {
+        "baseURL": "${OPENAI_BASE_URL}",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "apiKey": "{env:OPENAI_API_KEY}"
+      },
+      "models": {
+        "${OPENAI_DEFAULT_MODEL}": {
+          "name": "${OPENAI_DEFAULT_MODEL}"
+        }
+      }
+    }
+  }
+}
+EOF
+
+## Install extensions
+### Rest client
+
+echo "Installing Extensions..."
+
+
+code-server --install-extension humao.rest-client
+code-server --install-extension fcrespo82.markdown-table-formatter
+code-server --install-extension lucien-martijn.parquet-visualizer
+code-server --install-extension astral-sh.ty
+code-server --install-extension krish-r.vscode-toggle-terminal
+code-server --install-extension auxislabs.python-uv-toolkit
+
+publisher="ms-toolsai" extension_name="datawrangler" version="1.24.0"
+echo https://${publisher}.gallery.vsassets.io/_apis/public/gallery/publisher/${publisher}/extension/${extension_name}/${version}/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage
+wget -O /tmp/datawrangler.vsix https://${publisher}.gallery.vsassets.io/_apis/public/gallery/publisher/${publisher}/extension/${extension_name}/${version}/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage
+code-server --install-extension /tmp/datawrangler.vsix
+
+### Settings 
+
+# Define the configuration directory for VS Code
+VSCODE_CONFIG_DIR="$HOME/.local/share/code-server/User"
+
+# Create the configuration directory if necessary
+mkdir -p "$VSCODE_CONFIG_DIR"
+
+# User settings file
+SETTINGS_FILE="$VSCODE_CONFIG_DIR/settings.json"
+
+cat > "$SETTINGS_FILE" << EOF
+{
+  "editor.formatOnSave": true,
+  "editor.tabSize": 4,
+  "editor.rulers": [88],
+  "editor.wordWrap": "on",
+  "editor.fontSize": 14,
+  "editor.minimap.enabled": false,
+  "files.autoSave": "onFocusChange",
+  "terminal.integrated.fontSize": 13,
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+  "python.terminal.activateEnvironment": true,
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+  "notebook.output.textLineLimit": 100,
+  "workbench.colorTheme": "Default Dark+"
+}
+EOF
