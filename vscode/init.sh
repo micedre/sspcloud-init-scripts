@@ -40,7 +40,11 @@ cat > "$HOME/.config/opencode/opencode.json" << EOF
       },
       "models": {
         "${OPENAI_DEFAULT_MODEL}": {
-          "name": "${OPENAI_DEFAULT_MODEL}"
+          "name": "${OPENAI_DEFAULT_MODEL}",
+          "limit": {
+            "context": 32768,
+            "output": 16384
+          }
         }
       }
     }
