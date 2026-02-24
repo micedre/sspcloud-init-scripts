@@ -59,7 +59,7 @@ code-server --install-extension fcrespo82.markdown-table-formatter
 code-server --install-extension lucien-martijn.parquet-visualizer
 code-server --install-extension astral-sh.ty
 code-server --install-extension krish-r.vscode-toggle-terminal
-code-server --install-extension auxislabs.python-uv-toolkit
+code-server --install-extension the0807.uv-toolkit
 
 publisher="ms-toolsai" extension_name="datawrangler" version="1.24.0"
 echo https://${publisher}.gallery.vsassets.io/_apis/public/gallery/publisher/${publisher}/extension/${extension_name}/${version}/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage
