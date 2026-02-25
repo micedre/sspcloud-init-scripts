@@ -5,19 +5,13 @@ set -o pipefail
 
 ## Install Claude Code
 
-echo "Installing Node.js via n-install..."
-curl -fsSL https://raw.githubusercontent.com/mklement0/n-install/stable/bin/n-install | bash -s -- -q 22
+curl -fsSL https://claude.ai/install.sh | bash
 
-export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
-
-echo "Installing Claude CLI..."
-npm install -g @anthropic-ai/claude-code
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
 
 claude mcp add-json kubernetes '{"name":"kubernetes","command":"npx","args":["kubernetes-mcp-server@latest"]}'
-claude mcp add-json fetch '{"command":"npx","args":["-y","@modelcontextprotocol/server-fetch@latest"]}'
-claude mcp add-json sequential-thinking '{"command":"npx","args":["-y","@modelcontextprotocol/server-sequential-thinking@latest"]}'
 
-git clone https://github.com/wshobson/agents.git "$HOME/.claude/agents"
+# git clone https://github.com/wshobson/agents.git "$HOME/.claude/agents"
 
 ### Install OpenCode
 echo "Installing Opencode..."
