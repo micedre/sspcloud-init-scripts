@@ -18,7 +18,7 @@ curl -fsSL https://claude.ai/install.sh | bash
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
 
 /home/onyxia/.local/bin/claude mcp add-json kubernetes '{"name":"kubernetes","command":"npx","args":["kubernetes-mcp-server@latest"]}'
-alias claudio="ANTHROPIC_BASE_URL=${OPENAI_BASE_URL} ANTHROPIC_AUTH_TOKEN=${OPENAI_API_KEY} claude --model ${OPENAI_DEFAULT_MODEL}"
+echo "alias claudio='ANTHROPIC_BASE_URL=${OPENAI_BASE_URL} ANTHROPIC_AUTH_TOKEN=${OPENAI_API_KEY} claude --model ${OPENAI_DEFAULT_MODEL}'" >> ~/.bashrc
 
 # git clone https://github.com/wshobson/agents.git "$HOME/.claude/agents"
 
@@ -46,8 +46,8 @@ cat > "$HOME/.config/opencode/opencode.json" << EOF
         "${OPENAI_DEFAULT_MODEL}": {
           "name": "${OPENAI_DEFAULT_MODEL}",
           "limit": {
-            "context": 32768,
-            "output": 16384
+            "context": 64536,
+            "output": 64536
           }
         }
       }
