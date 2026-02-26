@@ -30,7 +30,7 @@ mkdir -p "$HOME/.config/opencode/"
 cat > "$HOME/.config/opencode/opencode.json" << EOF
 {
   "\$schema": "https://opencode.ai/config.json",
-  "model":"${OPENAI_DEFAULT_MODEL}",
+  "model":"llmlab/${OPENAI_DEFAULT_MODEL}",
   "provider": {
     "llmlab": {
       "npm": "@ai-sdk/openai-compatible",
@@ -93,7 +93,7 @@ cat > "$SETTINGS_FILE" << EOF
   "editor.fontSize": 14,
   "editor.minimap.enabled": false,
   "files.autoSave": "onFocusChange",
-  "terminal.integrated.fontSize": 13,
+  "terminal.integrated.fontSize": 14,
   "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
   "python.terminal.activateEnvironment": true,
   "[python]": {
