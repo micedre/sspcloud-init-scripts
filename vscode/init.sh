@@ -17,7 +17,7 @@ curl -fsSL https://claude.ai/install.sh | bash
 
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
 
-claude mcp add-json kubernetes '{"name":"kubernetes","command":"npx","args":["kubernetes-mcp-server@latest"]}'
+/home/onyxia/.local/bin/claude mcp add-json kubernetes '{"name":"kubernetes","command":"npx","args":["kubernetes-mcp-server@latest"]}'
 
 # git clone https://github.com/wshobson/agents.git "$HOME/.claude/agents"
 
@@ -102,5 +102,8 @@ cat > "$SETTINGS_FILE" << EOF
   "editor.rulers": [80, 100, 120],  # Add specific vertical rulers
   "files.trimTrailingWhitespace": true,  # Automatically trim trailing whitespace
   "files.insertFinalNewline": true,  # Ensure files end with a newline
+  "workbench.settings.showAISearchToggle": false,
+  "workbench.secondarySideBar.defaultVisibility": "hidden",
+  "chat.disableAIFeatures": true,
 }
 EOF
