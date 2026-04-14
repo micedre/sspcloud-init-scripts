@@ -56,6 +56,10 @@ cat > "$HOME/.config/opencode/opencode.json" << EOF
 }
 EOF
 
+## Install git-ai 
+
+curl -sSL https://usegitai.com/install.sh | bash
+
 ## Install extensions
 ### Rest client
 
@@ -107,5 +111,8 @@ cat > "$SETTINGS_FILE" << EOF
   "workbench.settings.showAISearchToggle": false,
   "workbench.secondarySideBar.defaultVisibility": "hidden",
   "chat.disableAIFeatures": true,
+  "security.workspace.trust.enabled": true
 }
 EOF
+
+chown onyxia: "$SETTINGS_FILE"
