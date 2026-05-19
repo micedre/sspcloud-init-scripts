@@ -103,10 +103,10 @@ cat > "$SETTINGS_FILE" << EOF
     "editor.defaultFormatter": "charliermarsh.ruff"
   },
   "notebook.output.textLineLimit": 100,
-  "workbench.colorTheme": "Default Dark Modern",  # Set the theme
-  "editor.rulers": [80, 100, 120],  # Add specific vertical rulers
-  "files.trimTrailingWhitespace": true,  # Automatically trim trailing whitespace
-  "files.insertFinalNewline": true,  # Ensure files end with a newline
+  "workbench.colorTheme": "Default Dark Modern",  
+  "editor.rulers": [80, 100, 120], 
+  "files.trimTrailingWhitespace": true,  
+  "files.insertFinalNewline": true,  
   "workbench.settings.showAISearchToggle": false,
   "workbench.secondarySideBar.defaultVisibility": "hidden",
   "chat.disableAIFeatures": true,
