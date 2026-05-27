@@ -98,7 +98,7 @@ cat > "$SETTINGS_FILE" << EOF
   "files.autoSave": "onFocusChange",
   "terminal.integrated.fontSize": 14,
   "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
-  "python.terminal.activateEnvironment": true,
+  "python.terminal.activateEnvironment": false,
   "[python]": {
     "editor.defaultFormatter": "charliermarsh.ruff"
   },
@@ -110,7 +110,7 @@ cat > "$SETTINGS_FILE" << EOF
   "workbench.settings.showAISearchToggle": false,
   "workbench.secondarySideBar.defaultVisibility": "hidden",
   "chat.disableAIFeatures": true,
-  "security.workspace.trust.enabled": true
+  "security.workspace.trust.enabled": false
 }
 EOF
 
