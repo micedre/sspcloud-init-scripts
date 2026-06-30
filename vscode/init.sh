@@ -16,49 +16,16 @@ export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PR
 curl -fsSL https://claude.ai/install.sh | bash
 
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
-
-/home/onyxia/.local/bin/claude mcp add-json kubernetes '{"name":"kubernetes","command":"npx","args":["kubernetes-mcp-server@latest"]}'
+#/home/onyxia/.local/bin/claude mcp add-json kubernetes '{"name":"kubernetes","command":"npx","args":["kubernetes-mcp-server@latest"]}'
 echo "alias claudio='ANTHROPIC_BASE_URL=${OPENAI_BASE_URL} ANTHROPIC_AUTH_TOKEN=${OPENAI_API_KEY} claude --model ${OPENAI_DEFAULT_MODEL}'" >> ~/.bashrc
 
 # git clone https://github.com/wshobson/agents.git "$HOME/.claude/agents"
 
-### Install OpenCode
-echo "Installing Opencode..."
-curl -fsSL https://opencode.ai/install | bash
+### Configure OpenCode
 
-mkdir -p "$HOME/.config/opencode/"
-cat > "$HOME/.config/opencode/opencode.json" << EOF
-{
-  "\$schema": "https://opencode.ai/config.json",
-  "model":"llmlab/${OPENAI_DEFAULT_MODEL}",
-  "provider": {
-    "llmlab": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "LLM Lab SSPCloud",
-      "options": {
-        "baseURL": "${OPENAI_BASE_URL}",
-        "headers": {
-          "Content-Type": "application/json"
-        },
-        "apiKey": "{env:OPENAI_API_KEY}"
-      },
-      "models": {
-        "${OPENAI_DEFAULT_MODEL}": {
-          "name": "${OPENAI_DEFAULT_MODEL}",
-          "limit": {
-            "context": 64536,
-            "output": 64536
-          }
-        }
-      }
-    }
-  }
-}
-EOF
+git clone https://github.com/micedre/opencode-onyxia "$HOME/opencode-onyxia"
+bash "$HOME/opencode-onyxia/install.sh"
 
-## Install git-ai 
-
-curl -sSL https://usegitai.com/install.sh | bash
 
 ## Install extensions
 ### Rest client
