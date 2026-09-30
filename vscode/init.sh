@@ -16,6 +16,35 @@ export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PR
 curl -fsSL https://claude.ai/install.sh | bash
 
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
+
+cfg="${CLAUDE_CONFIG_DIR:-$HOME}/.claude.json"
+mkdir -p "$(dirname "$cfg")"
+
+if [ ! -s "$cfg" ]; then
+  echo '{"hasCompletedOnboarding": true}' > "$cfg"
+elif command -v jq >/dev/null 2>&1; then
+  tmp=$(mktemp)
+  jq '.hasCompletedOnboarding = true' "$cfg" > "$tmp"
+  cat "$tmp" > "$cfg"   # keep the original file's permissions
+  rm -f "$tmp"
+elif command -v python3 >/dev/null 2>&1; then
+  python3 - "$cfg" <<'EOF'
+import json, sys
+path = sys.argv[1]
+with open(path) as f:
+    data = json.load(f)
+data["hasCompletedOnboarding"] = True
+with open(path, "w") as f:
+    json.dump(data, f, indent=2)
+EOF
+else
+  echo "Error: jq or python3 is needed to update the existing $cfg" >&2
+  exit 1
+fi
+
+echo "hasCompletedOnboarding=true set in $cfg"
+
+
 #/home/onyxia/.local/bin/claude mcp add-json kubernetes '{"name":"kubernetes","command":"npx","args":["kubernetes-mcp-server@latest"]}'
 echo "alias claudio='ANTHROPIC_BASE_URL=${OPENAI_BASE_URL} ANTHROPIC_AUTH_TOKEN=${OPENAI_API_KEY} claude --model ${OPENAI_DEFAULT_MODEL}'" >> ~/.bashrc
 
@@ -38,11 +67,7 @@ code-server --install-extension fcrespo82.markdown-table-formatter
 code-server --install-extension lucien-martijn.parquet-visualizer
 code-server --install-extension astral-sh.ty
 code-server --install-extension krish-r.vscode-toggle-terminal
-
-publisher="ms-toolsai" extension_name="datawrangler" version="1.24.0"
-echo https://${publisher}.gallery.vsassets.io/_apis/public/gallery/publisher/${publisher}/extension/${extension_name}/${version}/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage
-wget -O /tmp/datawrangler.vsix https://${publisher}.gallery.vsassets.io/_apis/public/gallery/publisher/${publisher}/extension/${extension_name}/${version}/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage
-code-server --install-extension /tmp/datawrangler.vsix
+code-server --install-extension christofkaufmann.dataframe-viewer
 
 ### Settings 
 
